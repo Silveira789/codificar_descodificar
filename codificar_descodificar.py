@@ -38,26 +38,28 @@ def codificar(chave, mensagem):
         chave_cod = chave[i % len(chave)]
         cod.append(chr((ord(mensagem[i]) + ord(chave_cod)) % 256))
 
-    return base64.urlsafe_b64decode("".join(cod).encode()).decode()
+    return base64.urlsafe_b64encode("".join(cod).encode()).decode()
 
 
 # Função de Descodificação
 
 def descodificar(chave, mensagem):
-    dec = []
+    desc = []
     mensagem = base64.urlsafe_b64decode(mensagem).decode()
     for i in range(len(mensagem)):
         chave_cod = chave[1 % len(chave)]
-        dec.append(chr(256 + ord(mensagem[i]) - ord(chave_cod) % 256))
+        desc.append(chr((256 + ord(mensagem[i]) - ord(chave_cod)) % 256))
 
-    return "".join(dec)
+    return "".join(desc)
 
+
+# Função escolher o modo
 
 def Mode():
     if (modo.get() == 'e'):
-        resultado.set(codificar(chave_privada.get(), Text.get()))
+        resultado.set(codificar(chave_privada.get(), mensagem.get()))
     elif (modo.get() == 'd'):
-        resultado.set(descodificar(chave_privada.get(), Text.get()))
+        resultado.set(descodificar(chave_privada.get(), mensagem.get()))
     else:
         resultado.set("Seleção Inválida")
 
@@ -70,7 +72,7 @@ def saida():
 # Função de resetar
 
 def resetar():
-    Text.set("")
+    mensagem.set("")
     chave_privada.set("")
     modo.set("")
     resultado.set("")
@@ -80,7 +82,7 @@ def resetar():
 
 # Mensagem
 Label(root, font='arial 12 bold', text='MENSAGEM:').place(x=60, y=60)
-Entry(root, font='arial 10', textvariable=Text, bg='ghost white').place(x=290, y=60)
+Entry(root, font='arial 10', textvariable=mensagem, bg='ghost white').place(x=290, y=60)
 
 # chave
 Label(root, font='arial 12 bold', text='KEY').place(x=60, y=90)
@@ -93,8 +95,8 @@ Entry(root, font='arial 10', textvariable=modo, bg='ghost white').place(x=290, y
 # Resultado
 Entry(root, font='arial 10 bold', textvariable=resultado, bg='ghost white').place(x=290, y=150)
 
-# Butão de Resultado
-Button(root, font='arial 10 bold', text='RESULT', padx=2, bg='LightGray', command=Mode).place(x=60, y=150)
+# Botão de Resultado
+Button(root, font='arial 10 bold', text='RESULTADO', padx=2, bg='LightGray', command=Mode).place(x=60, y=150)
 
 # Botão Resetar
 Button(root, font='arial 10 bold', text='RESET', width=6, command=resetar, bg='LimeGreen', padx=2).place(x=80, y=190)

@@ -1,3 +1,11 @@
+"""
+Instale para utilização: sudo apt-get install python3-tk
+
+* digitar apenas uma palavra, sem caracteres especiais
+
+"""
+
+
 # 1.importando módulos
 
 from tkinter import *
